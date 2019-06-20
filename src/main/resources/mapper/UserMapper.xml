@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.spring.springboot.dao.UserDao">
+    <resultMap id="BaseResultMap" type="org.spring.springboot.entity.User">
+        <result column="id"  property="id" />
+        <result column="name" property="name" />
+        <!--封装映射company表数据，user表与company表1对1关系，配置1对1的映射
+        association:用于配置1对1的映射
+                    属性property：company对象在user对象中的属性名
+                    属性javaType：company属性的java对象 类型
+                    属性column：user表中的外键引用company表
+    -->
+        <association property="company"  javaType="org.spring.springboot.entity.Company" column="company_id">
+            <id property="id" column="companyid"/>
+            <result property="companyName" column="companyname" />
+        </association>
+
+        <!--配置1对多关系映射
+               property：在user里面的List<Account>的属性名
+               ofType:当前account表的java类型
+               column:外键
+           -->
+        <collection property="accounts"  ofType="org.spring.springboot.entity.Account" column="user_id">
+            <result property="id" column="accountId"/>
+            <result property="accountName" column="accountname" />
+            <result property="userId"  column="user_id" />
+        </collection>
+    </resultMap>
+
+   <select id="findAllUser" resultMap="BaseResultMap">
+        SELECT
+            u.id,
+            u.name,
+            c.id companyid,
+            c.name companyname,
+            a.user_id,
+            a.id accountid,
+            a.name accountname
+        FROM
+            user u
+        LEFT JOIN company c ON u.company_id = c.id
+        LEFT JOIN account a ON u.id = a.user_id
+   </select>
+
+</mapper>

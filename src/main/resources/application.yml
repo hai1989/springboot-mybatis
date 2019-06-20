@@ -1,0 +1,69 @@
+#服务端口、编码
+server:
+  port: 8081
+
+
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+  #数据源配置
+  datasource:
+#    url: jdbc:mysql://47.106.23.238:3306/springbootdb?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+#    username: test1
+#    password: 123456
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#    type: com.zaxxer.hikari.HikariDataSource
+#    hikari:
+#      auto-commit: true
+#      pool-name: dbs
+#      maximum-pool-size: 200
+#      minimum-idle: 5
+#      idle-timeout: 30000
+#      max-lifetime: 90000
+#      connection-timeout: 30000
+#      connection-test-query: SELECT 1
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://47.106.23.238:3306/springbootdb?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: test1
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: druid1
+
+
+pageable
+
+druid1:
+  initalSize: 20
+  maxActive: 100
+  minldle: 20
+  maxWait: 30000
+  validationQuery: select 1
+
+
+
+#mybatise配置
+mybatis:
+  type-aliases-package: org.spring.springboot.entity
+  mapper-locations: classpath:mapper/*.xml
+  #输出sql执行语句--方式一
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+page
+#  mybatis.typeAliasesPackage 配置为 org.spring.springboot.entity，指向实体类包路径。mybatis.mapperLocations 配置为 classpath 路径下 mapper 包下，* 代表会扫描所有 xml 文件。
+#  mybatis 其他配置相关详解如下：
+#  mybatis.config = mybatis 配置文件名称
+#  mybatis.mapperLocations = mapper xml 文件地址
+#  mybatis.typeAliasesPackage = 实体类包路径
+#  mybatis.typeHandlersPackage = type handlers 处理器包路径
+#  mybatis.check-config-location = 检查 mybatis 配置是否存在，一般命名为 mybatis-config.xml
+#  mybatis.executorType = 执行模式。默认是 SIMPLE
+  #输出sql执行语句--方式二
+logging:
+  level:
+    org.spring.springboot.dao: trace
+  file: sql.log
+  path: .
